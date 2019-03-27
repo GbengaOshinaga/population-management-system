@@ -20,6 +20,11 @@ Route.get('/', () => {
   return { greeting: 'Hello world in JSON' }
 })
 
+Route.post('login', 'UserController.login')
+
+Route.post('signup', 'UserController.store')
+
+
 Route.resource('locations', 'LocationController').validator(new Map([
   [['locations.store'], ['StoreLocation']]
-]))
+])).middleware('auth')

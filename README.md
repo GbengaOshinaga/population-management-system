@@ -1,28 +1,34 @@
-# Adonis API application
+# Population Management System
 
-This is the boilerplate for creating an API server in AdonisJs, it comes pre-configured with.
+Population management system is an application that manages the data of cities and their populations.
 
-1. Bodyparser
-2. Authentication
-3. CORS
-4. Lucid ORM
-5. Migrations and seeds
+## Getting Started
+ - You should install the adonis cli: `npm i -g @adonis/cli`
+ - Clone the repository: `git clone https://github.com/GbengaOshinaga/sms-management-application-api.git`
+ - CD into the project folder
+ - Run `npm install`
+ - Generate application key: `adonis key:generate`
+ - Create a .env file
+ - Start the app: `adonis serve`
 
-## Setup
+## API Docs
+Most endpoints require authentication to be accessed. A token generated on login or sign up should be used to make requests to such endpoints
 
-Use the adonis command to install the blueprint
+Sign Up - `POST /signup`
 
-```bash
-adonis new yardstick --api-only
-```
+Login - `POST /login`
 
-or manually clone the repo and then run `npm install`.
+#### Authenticated Endpoints
+Create a location - `POST /locations`
+ - Required format of data to this endpoint:
+   - `name`:- must be unique
+   - `number_of_males`:- must be an integer
+   - `number_of_females`:- must be an integer
 
+Get locations - `GET /locations`
 
-### Migrations
+Update the attributes of a location. The required format in creating a location applies. - `PUT/PATCH /locations/:location-id`
 
-Run the following command to run startup migrations.
+Delete user - `DELETE /locations/:location-id`
 
-```js
-adonis migration:run
-```
+Checkout the tests for more details on the endpoints.

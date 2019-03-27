@@ -21,3 +21,11 @@ Factory.blueprint('App/Models/Location', (faker) => {
     number_of_females: faker.integer({ min: 20, max: 10000 })
   }
 })
+
+Factory.blueprint('App/Models/User', (faker) => {
+  return {
+    email: faker.email(),
+    password: faker.password()
+  }
+})
+  

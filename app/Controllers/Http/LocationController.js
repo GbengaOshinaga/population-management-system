@@ -4,25 +4,34 @@ const Location = use('App/Models/Location')
 
 class LocationController {
   async index ({ response }) {
-    const locations = await Location.query().with('locations').fetch()
+    try {
+      const locations = await Location.query().with('locations').fetch()
     
-    return response.send({ data: locations })
+      return response.send({ data: locations })
+    } catch (error) {
+      return response.send({ error })
+    }
   }
 
   async store ({ request, response }) {
-    const location = await Location.create(
+    try {
+      const location = await Location.create(
         request.only(['name', 'number_of_males', 'number_of_females', 'location_id']))
-    
-    return response.created({ data: location })
+        
+      return response.created({ data: location })
+    } catch (error) {
+      return response.send({ error })
+    }
   }
 
-    async update ({ params, request, response }) {
-        const { id } = params
-        if (isNaN(id)) {
-          return response.status(400).send({ message: 'Location id must be a number' })
-        }
-        const location = await Location.findBy('id', id)
-      
+  async update ({ params, request, response }) {
+    try {
+      const { id } = params
+      if (isNaN(id)) {
+        return response.status(400).send({ message: 'Location id must be a number' })
+      }
+      const location = await Location.findBy('id', id)
+        
       location.name = request.input('name') || location.name
       location.number_of_males = request.input('number_of_males') || location.male_count
       location.number_of_females = request.input('number_of_females') || location.female_count
@@ -30,17 +39,25 @@ class LocationController {
       await location.save()
     
       return response.ok({ data: location })
+
+    } catch (error) {
+      return response.send({ error })
+    }
     }
 
     async destroy ({ params, response }) {
-      const { id } = params
-      if (isNaN(id)) {
-        return response.status(400).send({ message: 'Location id must be a number' })
+      try {
+        const { id } = params
+        if (isNaN(id)) {
+          return response.status(400).send({ message: 'Location id must be a number' })
+        }
+        const location = await Location.findBy('id', id)
+      
+        await location.delete()
+        return response.send({ message: 'Location deleted successfully' })  
+      } catch (error) {
+        return response.send({ error })
       }
-      const location = await Location.findBy('id', id)
-    
-      await location.delete()
-      return response.send({ message: 'Location deleted successfully' })
     }
     
 }

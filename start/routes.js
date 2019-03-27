@@ -19,3 +19,7 @@ const Route = use('Route')
 Route.get('/', () => {
   return { greeting: 'Hello world in JSON' }
 })
+
+Route.resource('locations', 'LocationController').validator(new Map([
+  [['locations.store'], ['StoreLocation']]
+]))
